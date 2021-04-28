@@ -4,24 +4,8 @@
  * @date 2021-04-28
  */
 
-#include <stdio.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <time.h>
-#include <string.h>
-#include <ctype.h>
+#include "mastermind.h"
 
-#define MAX 10
-
-_Noreturn void guess_console(int *rand_num);  // user guessing console
-int arg_check(int argc, char *argv[]);  // command-line argument checker
-void game_result(int red, int white, int guess, long *timer); // print results
-void calc_avg(int guess, long *timer, double *avg);  // Guess time average
-void file_check(int *rand_ptr);  // check for the existence of .mm file
-void autoplay(int *rand_ptr); // autoplay the game
-
-// Main function that executes first.
-// Takes argc and *argv[] as arguments.
 int main(int argc, char *argv[])
 {
         arg_check(argc, argv);
@@ -30,19 +14,17 @@ int main(int argc, char *argv[])
         int rand_max = 10;
         int *rand_ptr = rand_num;
 
-        // Loops 4 times assigning a random number between 1-9 to each index in
-        // int rand_num[]
         for(int i = 0; i < 4; i++) {
                 rand_num[i] = rand() % rand_max;  // Range = [0, 9]
         }
+
         file_check(rand_ptr);
+
         if((arg_check(argc, argv)) ==  1)
                 autoplay(rand_ptr);
         guess_console(rand_ptr);
 }
 
-// Check the command-line arguments. The only valid argument is "autoplay".
-// Takes argc and *argv[] as arguments.
 int arg_check(int argc, char *argv[])
 {
         if(argc == 2 && strcmp(argv[1], "autoplay") == 0) {
@@ -55,14 +37,9 @@ int arg_check(int argc, char *argv[])
         }
 }
 
-/*
- * Check to see if an answer file exists. If the file exists and the data is.
- * valid, assign file number to the game's random number using pointers.
- * int *rand_ptr - the random number integer pointer.
- */
 void file_check(int *rand_ptr) {
        FILE *fp;
-       int *tmp = rand_ptr;  // temp pointer to rand_num
+       int *tmp = rand_ptr;
        char line[MAX];
        if ((fp = fopen(".mm", "r")) != NULL) {
                fgets(line, sizeof(line), fp);
@@ -84,9 +61,7 @@ void file_check(int *rand_ptr) {
        }
 }
 
-// Initiate the guessing console. Loops until game is won.
-// int *rand_ptr - the random number integer pointer.
-_Noreturn void guess_console(int *rand_ptr)
+void guess_console(int *rand_ptr)
 {
        time_t start;
        time_t end;
@@ -151,13 +126,6 @@ _Noreturn void guess_console(int *rand_ptr)
        }
 }
 
-/*
- * Print the ongoing or completed game results to the screen.
- * int red - number of correct digits in the correct index.
- * int white - number of correct digits in the incorrect index.
- * int guess - number of valid guesses.
- * long *timer - a pointer to an array of stored guess times.
- */
 void game_result(int red, int white, int guess, long *timer)
 {
        double avg;
@@ -179,12 +147,6 @@ void game_result(int red, int white, int guess, long *timer)
        }
 }
 
-/*
- * Calculate the average guess time and add to the times[] array
- * int guess - number of valid guesses.
- * long *timer - a pointer to an array of stored guess times.
- * double *avg - a pointer to the avg double
- */
 void calc_avg(int guess, long *timer, double *avg)
 {
        int sum = 0;
@@ -196,8 +158,6 @@ void calc_avg(int guess, long *timer, double *avg)
        *avg = (double)sum / guess;
 }
 
-// Play the game automatically with another random int array. Guess until win
-// int *rand_ptr - the random number integer pointer.
 void autoplay(int *rand_ptr) {
         int rand_max = 10;
         int comp_guess[4];
