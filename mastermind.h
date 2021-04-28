@@ -32,12 +32,32 @@ int arg_check(int argc, char *argv[]);
 /**
  * @brief Print the ongoing or finished game results to the terminal.
  * 
- * @param red (int): Number
- * @param white 
- * @param guess 
- * @param timer 
+ * @param red (int): Red score.
+ * @param white (int): White score.
+ * @param guess (int): Number of guesses.
+ * @param timer (long): Number of seconds for a guess.
+ */ 
+void game_result(int red, int white, int guess, long *timer);
+
+/**
+ * @brief Calculate guessing time average.
+ * 
+ * @param guess (int): Number of guesses.
+ * @param timer (long *): Pointer to array of times.
+ * @param avg (double *): Pointer to Average time.
  */
-void game_result(int red, int white, int guess, long *timer); // print results
-void calc_avg(int guess, long *timer, double *avg);  // Guess time average
-void file_check(int *rand_ptr);  // check for the existence of .mm file
-void autoplay(int *rand_ptr); // autoplay the game
+void calc_avg(int guess, long *timer, double *avg);
+
+/**
+ * @brief Chekck to see if answer file exits and validate data.
+ * 
+ * @param rand_ptr (int *): Pointer to random number integer.
+ */
+void file_check(int *rand_ptr);
+
+/**
+ * @brief Autoplay option feature. Plays the game automatically CPU vs. CPU.
+ * 
+ * @param rand_ptr (int *): Pointer to random number integer.
+ */
+void autoplay(int *rand_ptr);
