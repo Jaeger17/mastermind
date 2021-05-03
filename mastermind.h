@@ -13,6 +13,8 @@
 
 #define MAX 10
 
+typedef struct mm_info mm_info;
+
 /**
  * @brief User guessing console.
  * 
@@ -32,12 +34,10 @@ int arg_check(int argc, char *argv[]);
 /**
  * @brief Print the ongoing or finished game results to the terminal.
  * 
- * @param red (int): Red score.
- * @param white (int): White score.
- * @param guess (int): Number of guesses.
+ * @param inf (mm_info *): Pointer to MM information struct.
  * @param timer (long): Number of seconds for a guess.
  */ 
-void game_result(int red, int white, int guess, long *timer);
+void game_result(mm_info *info, long *timer);
 
 /**
  * @brief Calculate guessing time average.
