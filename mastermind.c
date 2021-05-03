@@ -1,6 +1,6 @@
 /**
  * @author Jaeger17 (Jaeger17@protonmail.com)
- * @brief 
+ * @brief
  * @date 2021-04-28
  */
 
@@ -66,9 +66,9 @@ void guess_console(int *rand_ptr)
        time_t start;
        time_t end;
        time_t diff;
-       char line[MAX];
-       char rand_line[MAX];
-       long times[100];
+       char line[MAX] = {0};
+       char rand_line[MAX]= {0};
+       long times[100] = {0};
        int red, white;
        int guess = 0;
        char consumed_listr[5] = "xxxx";
