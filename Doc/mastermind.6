@@ -1,0 +1,29 @@
+.\" Manpage for mastermind.
+.\" contact jaeger17@protonmail.com for questions or concerns
+.TH man 6 "5/3/2021" "1.0" "mastermind man page"
+.SH NAME
+mastermind \- Play the mastermind guessing game.
+.SH SYNOPSIS
+.B mastermind [ARGUMENT]
+.SH DESCRIPTION
+Mastermind is a game where the CPU pulls an answer from the .mm file or selects 
+a random 4 digit number if the file doesnot exist or contains invalid data. The 
+goal of the game is the guess the selected 4 digit number in as little attempts
+as possible. The user will be awarded a red point if they guess a correct digit
+in the correct index and a white mark if the digit is correct but in an incorrect 
+index. The CPU will track the average time spent on a valid guess and display
+the total average at the end of the game - if you win that is.
+.SH ARGUMENTS
+.IP autoplay
+Play the game CPU vs. CPU. The CPU does not care about red and white points 
+during autoplay. It will continue to guess until the correct answer is reached. 
+.SH EXAMPLES
+.IP\- "mastermind"
+play the standard game CPU vs. User.
+.IP\- "mastermind autoplay"
+play the automatic game CPU vs. CPU.
+.SH BUGS
+No known bugs.
+Report bugs to jaeger17@protonmail.com
+.SH AUTHOR
+Jaeger17 (jaeger17@protonmail.com)
