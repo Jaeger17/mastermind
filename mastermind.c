@@ -6,6 +6,12 @@
 
 #include "mastermind.h"
 
+struct mm_info {
+	int white;
+	int red;
+	int guesses;
+};
+
 int main(int argc, char *argv[])
 {
         arg_check(argc, argv);
@@ -69,19 +75,18 @@ void guess_console(int *rand_ptr)
        char line[MAX] = {0};
        char rand_line[MAX]= {0};
        long times[100] = {0};
-       int red, white;
-       int guess = 0;
        char consumed_listr[5] = "xxxx";
        char consumed_listw[5] = "xxxx";
        long *timer = times;
+       mm_info *info = calloc(1, sizeof(*info));
 
        for(int i = 0; i < 4; i++) {
                rand_line[i] = *rand_ptr + '0';
                rand_ptr++;
        }
        while(true) {
-               red = 0;
-               white = 0;
+               info->red = 0;
+               info->white = 0;
 
                start = time(&start);
                printf("Guess a number: ");
@@ -99,7 +104,7 @@ void guess_console(int *rand_ptr)
                for(int i = 0; i < 4; i++) {
                        if(line[i] == rand_line[i]) {
                                consumed_listr[i] = line[i];
-                               red++;
+                               info->red++;
                        }
                }
                for(int i = 0; i < 4; i++) {
@@ -108,7 +113,7 @@ void guess_console(int *rand_ptr)
                                         (strchr(rand_line, line[i])) &&
                                         !(strchr(consumed_listw, line[i]))){
                                consumed_listw[i] = line[i];
-                               white++;
+                               info->white++;
                        }
                }
 
@@ -117,31 +122,32 @@ void guess_console(int *rand_ptr)
                        consumed_listr[i] = 'x';
                        consumed_listw[i] = 'x';
                }
-               guess++;
+               info->guesses++;
                end = time(&end);
                diff = end - start;
                *timer = diff;
                timer++;
-               game_result(red, white, guess, timer);
+               game_result(info, timer);
        }
 }
 
-void game_result(int red, int white, int guess, long *timer)
+void game_result(mm_info *info, long *timer)
 {
        double avg;
        double *avg_ptr = &avg;
-       calc_avg(guess, timer, &avg);
-       if(red == 4) {
+       calc_avg(info->guesses, timer, &avg);
+       if(info->red == 4) {
                printf("\n%d red\nYou win! it took %d guess(es)\n"
                       "Average valid guess took: %.2fs\n"
-                      ,red, guess, *avg_ptr);
-               exit(0);
-       } else if(white > 0 && red > 0) {
-               printf("%d red, %d white\n", red, white);
-       } else if(white > 0) {
-               printf("%d white\n", white);
-       } else if(red > 0){
-               printf("%d red\n", red);
+                      ,info->red, info->guesses, *avg_ptr);
+		free(info);
+		exit(0);
+       } else if(info->white > 0 && info->red > 0) {
+               printf("%d red, %d white\n", info->red, info->white);
+       } else if(info->white > 0) {
+               printf("%d white\n", info->white);
+       } else if(info->red > 0){
+               printf("%d red\n", info->red);
        } else{
                puts("No matches\n");
        }
